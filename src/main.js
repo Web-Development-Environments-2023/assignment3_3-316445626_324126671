@@ -9,7 +9,9 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   routes,
 });
+import BootstrapVue from 'bootstrap-vue';
 
+Vue.use(BootstrapVue);
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -103,3 +105,7 @@ new Vue({
   },
   render: (h) => h(App),
 }).$mount("#app");
+const state = {
+  //server_domain: "http://localhost:3000",
+  server_domain:  "awaisy-pich.cs.bgu.ac.il",
+}

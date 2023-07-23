@@ -21,7 +21,61 @@
           Username length should be between 3-8 characters long
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.username.alpha">
-          Username alpha
+          Username must contain only letters
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-firstName"
+        label-cols-sm="3"
+        label="First Name:"
+        label-for="firstName"
+      >
+        <b-form-input
+          id="firstName"
+          v-model="$v.form.firstName.$model"
+          type="text"
+          :state="validateState('firstName')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.firstName.required">
+          first name is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-lastName"
+        label-cols-sm="3"
+        label="Last Name:"
+        label-for="lastName"
+      >
+        <b-form-input
+          id="lastName"
+          v-model="$v.form.lastName.$model"
+          type="text"
+          :state="validateState('lastName')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.lastName.required">
+          last name is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-email"
+        label-cols-sm="3"
+        label="email:"
+        label-for="email"
+      >
+        <b-form-input
+          id="email"
+          v-model="$v.form.email.$model"
+          type="text"
+          :state="validateState('email')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.email.email">
+          not an email
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.email.required">
+          email is required
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -65,6 +119,11 @@
           v-if="$v.form.password.required && !$v.form.password.length"
         >
           Have length between 5-10 characters long
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback
+          v-if="!$v.form.password.validate"
+        >
+          Have at least one number and one special character
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -127,7 +186,8 @@ import {
   maxLength,
   alpha,
   sameAs,
-  email
+  email,
+  validate
 } from "vuelidate/lib/validators";
 
 export default {
@@ -156,12 +216,23 @@ export default {
         length: (u) => minLength(3)(u) && maxLength(8)(u),
         alpha
       },
+      firstName: {
+        required,
+      },
+      lastName: {
+        required,
+      },
+      email: {
+        required,
+        email
+      },
       country: {
         required
       },
       password: {
         required,
-        length: (p) => minLength(5)(p) && maxLength(10)(p)
+        length: (p) => minLength(5)(p) && maxLength(10)(p),
+        validate: (value) => /^(?=.*[0-9])(?=.*[^a-zA-Z0-9\s])/.test(value)
       },
       confirmedPassword: {
         required,
@@ -183,7 +254,7 @@ export default {
       try {
         const response = await this.axios.post(
           // "https://test-for-3-2.herokuapp.com/user/Register",
-          this.$root.store.server_domain + "/Register",
+          "https://awaisy-pich.cs.bgu.ac.il/Register",
 
           {
             username: this.form.username,
