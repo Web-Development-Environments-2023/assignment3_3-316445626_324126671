@@ -19,8 +19,8 @@
           />
         </div>
       </div>
-
-      <router-link v-if="!$root.store.username" to="/login" tag="button" class="login-button">You need to Login to view this</router-link>
+      <LoginPage v-if="!$root.store.username"></LoginPage>
+      <!-- <router-link v-if="!$root.store.username" to="/login" tag="button" class="login-button">You need to Login to view this</router-link> -->
     </div>
 
     <!-- Add other elements below if needed -->
@@ -29,9 +29,11 @@
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
+import LoginPage from "./LoginPage.vue";
 export default {
   components: {
-    RecipePreviewList
+    RecipePreviewList,
+    LoginPage
   }
 };
 </script>
